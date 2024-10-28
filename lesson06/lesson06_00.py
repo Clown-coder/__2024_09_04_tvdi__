@@ -17,7 +17,7 @@ data = response.json()
 因此可以用以下方法來呼叫
 其中
 for items in data['records']
-這個 data['record'] 叫做 subscribe
+這個 data['record'] 叫做 subscrpt
 """
 
 for items in data['records']:
