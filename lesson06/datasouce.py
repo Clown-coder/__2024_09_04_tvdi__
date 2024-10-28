@@ -18,4 +18,4 @@ def get_sitename()->list[str]:
             sitenames.add(items['sitename'])
 
         sitenames = list(sitenames)
-        print(sitenames)
+        return sitenames
