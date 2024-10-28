@@ -26,9 +26,13 @@ data 是一個字典。
 'record' 是 data 字典中的一個鍵。
 data['record'] 表示存取該鍵所對應的值。
 """
+#set 沒有排序，沒有重複
+sitenames = set()
 
 for items in data['records']:
-    print(items)
+    sitenames.add(items['sitename'])
 
-
+# print(sitenames,len(sitenames))
+sitenames = list(sitenames)
+print(sitenames,type(sitenames))
 
