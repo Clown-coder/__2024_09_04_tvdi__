@@ -35,27 +35,28 @@ class Window(ThemedTk):
         # define columns
         columns = ('date', 'county', 'AQI','PM25','status','lat','lon')
 
-        tree = ttk.Treeview(bottomFrame, columns=columns, show='headings')
+        self.tree = ttk.Treeview(bottomFrame, columns=columns, show='headings')
 
         # define headings
-        tree.heading('date', text='日期')
-        tree.heading('county', text='縣市')
-        tree.heading('AQI', text='AQI')
-        tree.heading('PM25', text='PM25')
-        tree.heading('status', text='狀態')
-        tree.heading('lat', text='緯度')
-        tree.heading('lon', text='經度')
+        self.tree.heading('date', text='日期')
+        self.tree.heading('county', text='縣市')
+        self.tree.heading('AQI', text='AQI')
+        self.tree.heading('PM25', text='PM25')
+        self.tree.heading('status', text='狀態')
+        self.tree.heading('lat', text='緯度')
+        self.tree.heading('lon', text='經度')
 
         #set the width for each column
-        tree.column('date',width=150,anchor='center')
-        tree.column('county', width=80,anchor='center')
-        tree.column('AQI', width=50,anchor='center')
-        tree.column('PM25', width=50,anchor='center')
-        tree.column('status', width=50,anchor='center')
-        tree.column('lat', width=150,anchor='center')
-        tree.column('lon', width=150,anchor='center')
+        self.tree.column('date',width=150,anchor='center')
+        self.tree.column('county', width=80,anchor='center')
+        self.tree.column('AQI', width=50,anchor='center')
+        self.tree.column('PM25', width=50,anchor='center')
+        self.tree.column('status', width=50,anchor='center')
+        self.tree.column('lat', width=150,anchor='center')
+        self.tree.column('lon', width=150,anchor='center')
 
-        tree.insert('',tk.END,values=('2024-10-28 09:00','屏東縣',17,6.5,'良好',22.260899,120.651472))
+        #單筆輸入
+        # self.tree.insert('',tk.END,values=('2024-10-28 09:00','屏東縣',17,6.5,'良好',22.260899,120.651472))
 
 
         # generate sample data
@@ -67,13 +68,18 @@ class Window(ThemedTk):
         # for contact in contacts:
         #     tree.insert('', tk.END, values=contact)
         
-        tree.pack(side='right')
+        self.tree.pack(side='right')
+        
         bottomFrame.pack(expand=True,fill='x',padx=20,pady=(0,20),ipadx=10,ipady=10)
         #==============end bottomFrame===============
     
     
     def sitename_selected(self,e):
-        print(self.selected_site.get())
+        selected = self.selected_site.get()
+        print(selected)
+        # selected_data = datasouce.get_selected_data(selected)
+        # for record in selected_data:
+        #     self.tree.insert('',tk.END,values=record)
 
 
         
