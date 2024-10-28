@@ -17,7 +17,14 @@ data = response.json()
 因此可以用以下方法來呼叫
 其中
 for items in data['records']
-這個 data['record'] 叫做 subscrpt
+這個 data['record'] 叫做 subscript
+
+補充
+具體來說，這種結構表示：
+
+data 是一個字典。
+'record' 是 data 字典中的一個鍵。
+data['record'] 表示存取該鍵所對應的值。
 """
 
 for items in data['records']:
