@@ -27,13 +27,16 @@ class Window(ThemedTk):
         bottomFrame = ttk.Frame(self)
             #==============selectedFrame===============
         selectedFrame=ttk.Frame(self,padding=[10,10,10,10])
-        sitenames = datasouce.get_sitename()
-        self.selected_site = tk.StringVar()
-        sitenames_cb = ttk.Combobox(selectedFrame, textvariable=self.selected_site,values=sitenames,state='readonly')
-        self.selected_site.set('請選擇站點')
-        sitenames_cb.bind('<<ComboboxSelected>>', self.sitename_selected)
+        #combobox
+        counties = datasouce.get_county()
+        #self.selected_site = tk.StringVar()
+        self.selected_county = tk.StringVar()
+        sitenames_cb = ttk.Combobox(selectedFrame, textvariable=self.selected_county,values=counties,state='readonly')
+        self.selected_county .set('請選擇城市')
+        sitenames_cb.bind('<<ComboboxSelected>>', self.county_selected)
         sitenames_cb.pack(expand=True,anchor='n')        
         
+
         selectedFrame.pack(side='left',expand=True,fill='y',padx=(20,0))
             #==============end selectedFrame===============  
 
@@ -90,6 +93,9 @@ class Window(ThemedTk):
             self.tree.insert('',tk.END,values=record)
 
 
+    def county_selected(self,e):
+        selected =self.selected_county .get()
+        print(selected)
         
 
 
