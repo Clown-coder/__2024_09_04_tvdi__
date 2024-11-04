@@ -3,6 +3,7 @@ from tkinter import ttk
 import tkinter as tk
 from ttkthemes import ThemedTk
 from tkinter.messagebox import showinfo
+import sqlite3
 
 class Window(ThemedTk):
     def __init__(self,*args, **kwargs):
@@ -84,11 +85,10 @@ class Window(ThemedTk):
 
         
 
-def download_data():
-    pass
+
 
 def main():
-    download_data()
+    datasouce.download_data() #下載至資料庫
     window = Window(theme="arc")
     window.mainloop()
 
