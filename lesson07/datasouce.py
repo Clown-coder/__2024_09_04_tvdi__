@@ -16,7 +16,24 @@ def get_sitename()->list[str]:
         sitenames = [items[0] for items in cursor.fetchall()]   #comprehension寫法
 
     return sitenames
-        
+
+def get_county()->list[str]:
+    """
+    docString
+    parameter:
+    return:
+        傳出所有城市名稱
+    """
+    conn = sqlite3.connect("AQI.db")
+    with conn:
+        cursor = conn.cursor()
+        sql= """SELECT DISTINCT county FROM record"""
+        cursor.execute(sql)
+        counties = [items[0] for items in cursor.fetchall()]   #comprehension寫法
+
+    return counties
+
+
 
 def get_selected_data(sitename:str)->list[list]:
     '''
