@@ -26,30 +26,22 @@ def get_selected_data(sitename:str)->list[list]:
     Return:
         所有關於此站點的相關資料
     '''
-    url = 'https://data.moenv.gov.tw/api/v2/aqx_p_488?api_key=e8dd42e6-9b8b-43f8-991e-b3dee723a52d&limit=1000&sort=datacreationdate%20desc&format=JSON'
+    conn = sqlite3.connect("AQI.db")
+    with conn:
+        cursor = conn.cursor()
+        sql= """
+            SELECT date,county,AQI,PM25,status,lat,lon
+            FROM record 
+            WHERE sitename=?
+            ORDER  BY date ASC
 
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        data = response.json()
-    except Exception as e:
-        print(e)
+            """
+        cursor.execute(sql,('富貴角',))
+        sitename_list = [list(items) for items in cursor.fetchall()]
+        return sitename_list
 
-    else:
-        outerlist=[]
-        for items in data['records']:
-            if items['sitename'] == sitename:
-                innerlist = [items['datacreationdate'],
-                items['county'],
-                items['aqi'],
-                items['pm2.5'],
-                items['status'],
-                items['latitude'],
-                items['longitude']
-                ]
-                outerlist.append(innerlist)
-
-        return outerlist
+    
+    
     
 def download_data():
     conn = sqlite3.connect("AQI.db")
