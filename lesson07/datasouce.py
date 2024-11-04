@@ -36,7 +36,7 @@ def get_selected_data(sitename:str)->list[list]:
             ORDER  BY date ASC
 
             """
-        cursor.execute(sql,('富貴角',))
+        cursor.execute(sql,(sitename,))
         sitename_list = [list(items) for items in cursor.fetchall()]
         return sitename_list
 
