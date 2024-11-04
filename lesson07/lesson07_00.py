@@ -9,6 +9,7 @@ class Window(ThemedTk):
     def __init__(self,*args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title('登入')
+        self.resizable(False,False)
         #==============style===============
         style = ttk.Style(self)
         style.configure('TopFrame.TLabel',font=('Helvetica',20))
