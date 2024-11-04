@@ -76,6 +76,8 @@ class Window(ThemedTk):
     
     
     def sitename_selected(self,e):
+        for child in self.tree.get_children():
+            self.tree.delete(child)
         selected = self.selected_site.get()
         
         selected_data = datasouce.get_selected_data(selected)
