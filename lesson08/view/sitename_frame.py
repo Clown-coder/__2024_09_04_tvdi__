@@ -8,8 +8,9 @@ class SitenameFrame(ttk.Frame):
     SitenameFrame 內會使用checkbox_widget,提供給使用者勾選站點
     
     """
-    def __init__(self,master=None,sitenames:list[str]=None,**kwargs):
+    def __init__(self,master=None,sitenames:list[str]=None,radio_controll=None,**kwargs):
         super().__init__(master=master, **kwargs)
+        self.radio_control = radio_controll
         #欄寬度的權重
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1,weight=1)
@@ -21,4 +22,5 @@ class SitenameFrame(ttk.Frame):
     
 
     def radio_button_selected(self):
-        print(self.selected_radio.get())
+        if self.radio_control !=None:
+            self.radio_control(self.selected_radio.get())

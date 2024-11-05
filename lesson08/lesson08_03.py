@@ -85,15 +85,7 @@ class Window(ThemedTk):
         #==============end bottomFrame===============
     
     
-    def sitename_selected(self,e):
-        for child in self.tree.get_children():
-            self.tree.delete(child)
-        selected = self.selected_site.get()
-        
-        selected_data = datasouce.get_selected_data(selected)
-        # print(selected_data)
-        for record in selected_data:
-            self.tree.insert('',tk.END,values=record)
+    
 
 
     def county_selected(self,e):
@@ -103,8 +95,26 @@ class Window(ThemedTk):
             self.sitenameFrame.destroy()
 
         
-        self.sitenameFrame = view.SitenameFrame(master=self.selectedFrame,sitenames=sitenames)
+        self.sitenameFrame = view.SitenameFrame(master=self.selectedFrame,sitenames=sitenames,radio_controll=self.radio_button_click)
         self.sitenameFrame.pack()
+
+    
+    def radio_button_click(self,selected_sitename:str):
+        '''
+        - 此method是傳給 sitenameFrame實體
+        - 當sitenameFrame內的radio button被選取時，會連動執行此method 
+        Parameter:
+            selected_sitename:str -> 這是被選取的站點名稱
+            
+        '''
+
+        for child in self.tree.get_children():
+            self.tree.delete(child)
+        
+        selected_data = datasouce.get_selected_data(selected_sitename)
+        # print(selected_data)
+        for record in selected_data:
+            self.tree.insert('',tk.END,values=record)
             
         
 
