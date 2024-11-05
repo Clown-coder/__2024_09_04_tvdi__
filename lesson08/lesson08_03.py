@@ -33,7 +33,9 @@ class Window(ThemedTk):
         self.icon_img = Image.open('refresh_16.png')
         self.icon_phto = ImageTk.PhotoImage(self.icon_img)
 
-        icon_button = tk.Button(self.selectedFrame,image=self.icon_phto,borderwidth=0,highlightthickness=0,text ='Refresh Data')
+        icon_button = view.ImageButton(self.selectedFrame,
+                                image=self.icon_phto,
+                                text ='Refresh Data')
         icon_button.pack(pady=7)
 
 
