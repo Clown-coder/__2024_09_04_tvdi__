@@ -50,10 +50,11 @@ def get_selected_data(sitename:str)->list[list]:
     with conn:
         cursor = conn.cursor()
         sql= """
-            SELECT date,county,AQI,PM25,status,lat,lon
+            SELECT date,county,sitename ,AQI,PM25,status,lat,lon
             FROM record 
             WHERE sitename=?
-            ORDER  BY date ASC
+            ORDER  BY date DESC 
+
 
             """
         cursor.execute(sql,(sitename,))
