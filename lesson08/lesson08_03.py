@@ -5,6 +5,7 @@ from ttkthemes import ThemedTk
 from tkinter.messagebox import showinfo
 import sqlite3
 import view
+from PIL import Image,ImageTk
 
 class Window(ThemedTk):
     def __init__(self,*args, **kwargs):
@@ -28,6 +29,14 @@ class Window(ThemedTk):
         bottomFrame = ttk.Frame(self)
             #==============selectedFrame===============
         self.selectedFrame=ttk.Frame(self,padding=[10,10,10,10])
+        #增加refresh button
+        self.icon_img = Image.open('refresh_16.png')
+        self.icon_phto = ImageTk.PhotoImage(self.icon_img)
+
+        icon_button = tk.Button(self.selectedFrame,image=self.icon_phto,borderwidth=0,highlightthickness=0,text ='Refresh Data')
+        icon_button.pack(pady=7)
+
+
         #combobox
         counties = datasouce.get_county()
         #self.selected_site = tk.StringVar()
