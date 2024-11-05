@@ -28,11 +28,11 @@ class Window(ThemedTk):
         #==============bottomFrame===============
         bottomFrame = ttk.Frame(self)
             #==============selectedFrame===============
-        self.selectedFrame=ttk.Frame(self,padding=[10,10,10,10])
+        self.selectedFrame=ttk.Frame(bottomFrame,padding=[10,10,10,10])
         #增加refresh button
         
 
-        icon_button = view.ImageButton(self.selectedFrame)
+        icon_button = view.ImageButton(self.selectedFrame,command=lambda: datasouce.download_data)
         icon_button.pack(pady=7)
 
 
@@ -51,10 +51,17 @@ class Window(ThemedTk):
         self.selectedFrame.pack(side='left',expand=True,fill='y',padx=(20,0))
             #==============end selectedFrame===============  
 
-        # define columns
+
+            #==============RightdFrame===============
+
+        rightFrame = ttk.LabelFrame(bottomFrame,text= '站點資訊',padding=[10,10,10,10])
+        #建立Treeview
+        
+
+         # define columns
         columns = ('date', 'county', 'sitename','AQI','PM25','status','lat','lon')
 
-        self.tree = ttk.Treeview(bottomFrame, columns=columns, show='headings')
+        self.tree = ttk.Treeview(rightFrame, columns=columns, show='headings')
 
         # define headings
         self.tree.heading('date', text='日期')
@@ -90,6 +97,10 @@ class Window(ThemedTk):
         #     tree.insert('', tk.END, values=contact)
         
         self.tree.pack(side='right')
+
+        rightFrame.pack(side='right')
+            #==============End RightdFrame===========  
+       
         
         bottomFrame.pack(expand=True,fill='x',padx=20,pady=(0,20),ipadx=10,ipady=10)
         #==============end bottomFrame===============
