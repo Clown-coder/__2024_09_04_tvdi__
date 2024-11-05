@@ -30,12 +30,9 @@ class Window(ThemedTk):
             #==============selectedFrame===============
         self.selectedFrame=ttk.Frame(self,padding=[10,10,10,10])
         #增加refresh button
-        self.icon_img = Image.open('refresh_16.png')
-        self.icon_phto = ImageTk.PhotoImage(self.icon_img)
+        
 
-        icon_button = view.ImageButton(self.selectedFrame,
-                                image=self.icon_phto,
-                                text ='Refresh Data')
+        icon_button = view.ImageButton(self.selectedFrame)
         icon_button.pack(pady=7)
 
 
