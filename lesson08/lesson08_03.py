@@ -37,7 +37,7 @@ class Window(ThemedTk):
         sitenames_cb.bind('<<ComboboxSelected>>', self.county_selected)
         sitenames_cb.pack(anchor='n') 
 
-        self.lsbox_site = None
+        self.sitenameFrame = None
         
 
         self.selectedFrame.pack(side='left',expand=True,fill='y',padx=(20,0))
@@ -98,16 +98,12 @@ class Window(ThemedTk):
 
     def county_selected(self,e):
         selected =self.selected_county.get()
-        counties = datasouce.get_sitename(county=selected)
-        if self.lsbox_site:
-            self.lsbox_site.destroy()
+        sitenames = datasouce.get_sitename(county=selected)
+        if self.sitenameFrame:
             self.sitenameFrame.destroy()
 
-        var = tk.Variable(value=counties)
-        self.lsbox_site= tk.Listbox(self.selectedFrame,listvariable=var,height=6,selectmode=tk.EXTENDED)
-
-        self.lsbox_site.pack(pady=(20,0))
-        self.sitenameFrame = view.SitenameFrame(self.selectedFrame)
+        
+        self.sitenameFrame = view.SitenameFrame(master=self.selectedFrame,sitenames=sitenames)
         self.sitenameFrame.pack()
             
         
