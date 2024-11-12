@@ -62,7 +62,7 @@ class Window(ThemedTk):
         columns = ('date', 'county', 'sitename','AQI','PM25','status','lat','lon')
 
         self.tree = ttk.Treeview(rightFrame, columns=columns, show='headings')
-
+        self.tree.bind("<<TreeviewSelect>>",self.item_selected)
         # define headings
         self.tree.heading('date', text='日期')
         self.tree.heading('county', text='縣市')
@@ -136,6 +136,13 @@ class Window(ThemedTk):
         # print(selected_data)
         for record in selected_data:
             self.tree.insert('',tk.END,values=record)
+
+    def item_selected(self,e):
+        for selected_item in self.tree.selection():
+            record = self.tree.item(selected_item)
+            print(record['values'])
+            
+            
             
         
 
