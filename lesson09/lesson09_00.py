@@ -141,6 +141,8 @@ class Window(ThemedTk):
         for selected_item in self.tree.selection():
             record = self.tree.item(selected_item)
             print(record['values'])
+            dialog = view.MyCustomDialog(self, title='Second Window')
+            
             
             
             
