@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter.simpledialog import Dialog
 from tkinter import ttk
 from PIL import Image, ImageTk
+import tkintermapview as tkmap
 
 
 class MyCustomDialog(Dialog):
@@ -71,9 +72,19 @@ class MyCustomDialog(Dialog):
         canvas_right.create_image(100,150,anchor='center',image=self.green1)
         canvas_right.pack(side='right')
 
-        
-        
         main_frame.pack(fill='x', expand=True)
+
+
+        map_frame = ttk.Frame(master)
+        map_widget = tkmap.TkinterMapView(map_frame,
+                                         width=400,
+                                         height=400,
+                                         corner_radius=0
+                                         )
+        map_widget.set_position(25.038128318756307, 121.56306490172479) #台北市位置
+        map_widget.set_zoom(15) #設定顯示大小
+        map_widget.pack()
+        map_frame.pack(padx=10,pady=10)
 
     def apply(self):
         # 當用戶按下確定時處理數據
