@@ -22,7 +22,8 @@ class MyCustomDialog(Dialog):
     def body(self, master):
         # 創建對話框主體。返回應具有初始焦點的控件。
         main_frame = ttk.Frame(master,borderwidth=1,relief='groove')
-        ttk.Label(main_frame,text=self.status).pack()
+        ttk.Label(main_frame,text=self.date,font=('Helvetica',24,'bold')).pack(pady=2)
+        
 
         canvas_left = tk.Canvas(main_frame,width=200,height=200)
         canvas_left.create_rectangle(10,10,190,190,outline='#434343',fill='#BDC0BA',width=2)
