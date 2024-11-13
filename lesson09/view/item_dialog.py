@@ -2,7 +2,10 @@ import tkinter as tk
 from tkinter.simpledialog import Dialog
 
 class MyCustomDialog(Dialog):
-    def __init__(self, parent, title = None):
+    def __init__(self, parent,record:list ,title = None):
+        print(f'傳過來的資料: {record}')
+        #super().__init__ 這行執行完，就會跳出去執行別行
+        #所以有其他東西要執行，就要在這行之前
         super().__init__(parent=parent,title=title)
 
     def body(self, master):
