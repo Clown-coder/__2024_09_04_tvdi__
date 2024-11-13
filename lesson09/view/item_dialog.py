@@ -25,24 +25,49 @@ class MyCustomDialog(Dialog):
         ttk.Label(main_frame,text=self.status).pack()
 
         canvas_left = tk.Canvas(main_frame,width=200,height=200)
-        canvas_left.create_rectangle(10,10,190,190,outline='#9E7A7A',fill='#B19639',width=2)
+        canvas_left.create_rectangle(10,10,190,190,outline='#434343',fill='#BDC0BA',width=2)
         # canvas_left.create_oval(15, 15, 185, 185, outline="#f11",
         #     fill="#1f1", width=2)
-        canvas_left.create_text(100,60,text='AQI',font=('Helvetica',24,'bold'),fill='blue')
-        canvas_left.create_text(100,110,text=self.aqi,font=('Helvetica',24,'bold'),fill='green')
-        img = Image.open(r'C:\\Users\\user\\Documents\\GitHub\\__2024_09_04_tvdi__\\lesson09\\green_light.png')
-        self.resize_image= img.resize((60,60))
-        self.green = ImageTk.PhotoImage(self.resize_image)
+        
+        if self.aqi<=50:
+            path = r'C:\\Users\\user\\Documents\\GitHub\\__2024_09_04_tvdi__\\lesson09\\green.png'
+            self.status = '良好'
+        elif self.aqi <=100:
+            path =r'C:\\Users\\user\\Documents\\GitHub\\__2024_09_04_tvdi__\\lesson09\\yellow.png'
+            self.status = '普通'
+        else:
+            path = r'C:\\Users\\user\\Documents\\GitHub\\__2024_09_04_tvdi__\\lesson09\\red.png'
+            self.status = '危險'
+        canvas_left.create_text(100,40,text=f'AQI: {self.status}',font=('Helvetica',24,'bold'),fill='blue')
+        canvas_left.create_text(100,90,text=self.aqi,font=('Helvetica',24,'bold'),fill='green')
+
+        self.img = Image.open(path)
+        # self.resize_image= self.img.resize((60,60))
+        self.green = ImageTk.PhotoImage(self.img)
         canvas_left.create_image(100,150,anchor='center',image=self.green)
         canvas_left.pack(side='left')
 
 
         canvas_right = tk.Canvas(main_frame,width=200,height=200)
-        canvas_right.create_rectangle(10,10,190,190,outline='#AB3B3A',fill='#724938',width=2)
+        canvas_right.create_rectangle(10,10,190,190,outline='#77428D',fill='#986DB2',width=2)
         # canvas_right.create_oval(15, 15, 185, 185, outline="#f11",
         #     fill="#1f1", width=2)
-        canvas_right.create_text(100,60,text='PM2.5',font=('Helvetica',24,'bold'),fill='blue')
-        canvas_right.create_text(100,110,text=self.aqi,font=('Helvetica',24,'bold'),fill='green')
+        if self.pm25<=35:
+            path = r'C:\\Users\\user\\Documents\\GitHub\\__2024_09_04_tvdi__\\lesson09\\green.png'
+            self.status = '低'
+        elif self.pm25 <=53:
+            path =r'C:\\Users\\user\\Documents\\GitHub\\__2024_09_04_tvdi__\\lesson09\\yellow.png'
+            self.status = '中'
+        else:
+            path = r'C:\\Users\\user\\Documents\\GitHub\\__2024_09_04_tvdi__\\lesson09\\red.png'
+            self.status = '高'
+
+        canvas_right.create_text(100,40,text=f'PM2.5: {self.status}',font=('Helvetica',24,'bold'),fill='blue')
+        canvas_right.create_text(100,90,text=self.pm25,font=('Helvetica',24,'bold'),fill='green')
+        self.img1 = Image.open(path)
+        # self.resize_image= self.img.resize((60,60))
+        self.green1 = ImageTk.PhotoImage(self.img1)
+        canvas_right.create_image(100,150,anchor='center',image=self.green1)
         canvas_right.pack(side='right')
 
         
