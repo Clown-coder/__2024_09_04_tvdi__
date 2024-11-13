@@ -23,10 +23,26 @@ class MyCustomDialog(Dialog):
         main_frame = ttk.Frame(master,borderwidth=1,relief='groove')
         ttk.Label(main_frame,text=self.status).pack()
 
-        canvas = tk.Canvas(main_frame,width=400,height=400)
-        canvas.create_oval(10, 10, 80, 80, outline="#f11",
+        canvas_left = tk.Canvas(main_frame,width=200,height=200)
+        canvas_left.create_rectangle(10,10,190,190,outline='#9E7A7A',fill='#B19639',width=2)
+        canvas_left.create_oval(15, 15, 185, 185, outline="#f11",
             fill="#1f1", width=2)
-        canvas.pack()
+        
+        canvas_left.create_text(100,60,text='AQI',font=('Helvetica',24,'bold'),fill='blue')
+        canvas_left.create_text(100,110,text=self.aqi,font=('Helvetica',24,'bold'),fill='green')
+        canvas_left.pack(side='left')
+
+        canvas_right = tk.Canvas(main_frame,width=200,height=200)
+        canvas_right.create_rectangle(10,10,190,190,outline='#AB3B3A',fill='#724938',width=2)
+        canvas_right.create_oval(15, 15, 185, 185, outline="#f11",
+            fill="#1f1", width=2)
+        
+        canvas_right.create_text(105,60,text='PM2.5',font=('Helvetica',24,'bold'),fill='blue')
+        canvas_right.create_text(100,110,text=self.aqi,font=('Helvetica',24,'bold'),fill='green')
+        canvas_right.pack(side='right')
+
+        
+        
         main_frame.pack(fill='x', expand=True)
 
     def apply(self):
