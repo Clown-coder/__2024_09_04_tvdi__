@@ -4,6 +4,8 @@ import pandas as pd
 import datetime
 from datetime import datetime, timedelta 
 from tkinter import messagebox
+from PIL import Image, ImageTk
+from tkinter import ttk
 
 def download_data():
     symbol = '2330.TW'
@@ -46,3 +48,7 @@ def download_data():
             # 提交更改並關閉連接
             cursor.close()
             conn.close()
+
+    
+
+
