@@ -6,12 +6,15 @@ from tkinter.messagebox import showinfo
 import sqlite3
 import view
 from PIL import Image,ImageTk
+from pandas import DataFrame
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class Window(ThemedTk):
     def __init__(self,*args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title('登入')
-        self.resizable(False,False)
+        # self.resizable(False,False)
         #==============style===============
         style = ttk.Style(self)
         style.configure('TopFrame.TLabel',font=('Helvetica',20))
@@ -83,20 +86,19 @@ class Window(ThemedTk):
         self.tree.column('lat', width=150,anchor='center')
         self.tree.column('lon', width=150,anchor='center')
 
-        #單筆輸入
-        # self.tree.insert('',tk.END,values=('2024-10-28 09:00','屏東縣',17,6.5,'良好',22.260899,120.651472))
+        self.tree.pack()
+        #==========end of Tree view===============
+        #==========plotframe=====================
+        self.plotFrame = ttk.Frame(rightFrame)
+
+        self.canvas=None        #畫圖表的原件，一開始為None
 
 
-        # generate sample data
-        # contacts = []
-        # for n in range(1, 100):
-        #     contacts.append((f'first {n}', f'last {n}', f'email{n}@example.com'))
+        self.plotFrame.pack()
 
-        # add data to the treeview
-        # for contact in contacts:
-        #     tree.insert('', tk.END, values=contact)
-        
-        self.tree.pack(side='right')
+
+
+        #==========end plotframe===================
 
         rightFrame.pack(side='right')
             #==============End RightdFrame===========  
@@ -133,9 +135,18 @@ class Window(ThemedTk):
             self.tree.delete(child)
         
         selected_data = datasouce.get_selected_data(selected_sitename)
-        # print(selected_data)
+        #print(selected_data)
         for record in selected_data:
             self.tree.insert('',tk.END,values=record)
+        #currentEDit
+        dataframe:DataFrame = datasouce.get_plot_data(sitename=selected_sitename)
+        axes=dataframe.plot()
+        figure = axes.get_figure()
+        if self.canvas:
+            self.canvas.get_tk_widget.destroy()
+        self.canvas = FigureCanvasTkAgg(figure, master=self.plotFrame)
+        self.canvas.draw()
+        self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
     def item_selected(self,e):
         for selected_item in self.tree.selection():

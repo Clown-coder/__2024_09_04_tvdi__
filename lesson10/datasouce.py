@@ -2,6 +2,8 @@ import requests
 import sqlite3
 from dotenv import load_dotenv
 import os
+import pandas as pd
+from pandas import DataFrame
 
 load_dotenv()
 
@@ -65,7 +67,28 @@ def get_selected_data(sitename:str)->list[list]:
         sitename_list = [list(items) for items in cursor.fetchall()]
         return sitename_list
 
-    
+
+def get_plot_data(sitename:str)->DataFrame:
+    conn = sqlite3.connect("AQI.db")
+    with conn:
+        cursor = conn.cursor()
+        sql= """
+            SELECT date,aqi,pm25
+            FROM record 
+            WHERE sitename =?  
+                """
+        cursor.execute(sql,(sitename,))
+        data_list = []
+        for item in cursor.fetchall():
+            date = item[0]
+            aqi = item[1]
+            pm25 = item[2]
+            data_list.append({'Date':date,'AQI':aqi,'PM25':pm25})
+        df = pd.DataFrame(data_list)
+        df['Date'] = pd.to_datetime(df['Date'])
+        df1 = df.set_index('Date')
+        return df1
+
     
     
 def download_data():
