@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,render_template
 '''
 flask 就是一個支援 wsgi的應用程式
 真正支援wsgi的程式是 Gunicorn
@@ -10,4 +10,5 @@ flask --app 檔案名稱 run --debug
 app = Flask(__name__)
 @app.route("/")
 def index():
-    return "<h1>Hello Flask</h1>"
+    return render_template('index.j2')
+
