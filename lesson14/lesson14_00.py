@@ -1,4 +1,5 @@
 from flask import Flask,render_template
+import datasource
 '''
 flask 就是一個支援 wsgi的應用程式
 真正支援wsgi的程式是 Gunicorn
@@ -15,6 +16,8 @@ def index():
 
 @app.route("/product")
 def product():
+    cities:list[dict] = datasource.get_cities()
+    print(cities)
     return render_template('product.j2')
 
 @app.route("/pricing")
