@@ -8,16 +8,14 @@
 
 
 {% block main%}
-<h1>產品產品產品</h1>
-<h3>{{request.path}}</h3>
-<h4>{{citys|length()}}</h4>
-<h5>===========================</h5>
-<h1>{{citys[0]['city_name']}}</h1>
-<ul>
-    {% for key in citys[0] %}
-        
-        <li>{{citys[0][key]}}</li>
-    {%endfor %}
 
-</ul>
+{% for item in citys %}
+    <h1>{{item['city_name']}}</h1>
+    <ul>
+        {% for key in item %}
+            <li>{{item[key]}}</li>
+        {%endfor %}
+
+    </ul>
+{%endfor%}
 {% endblock%}
