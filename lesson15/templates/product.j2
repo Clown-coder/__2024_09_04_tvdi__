@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in citys %}
+            {% for item in items_on_page %}
                 <tr>
                     <ul>
                         {% for key in item %}
@@ -36,9 +36,13 @@
     <div class='container d-flex justify-content-center'>
         <nav aria-label="Page navigation example" >
             <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            {% if page>1 %}
+                <li class="page-item"><a class="page-link" href="{{url_for('product',page=page-1)}}">Previous</a></li>
+            {% endif %}
+                <li class="page-item"><a class="page-link" href="#">{{page}} / {{total_pages}}</a></li>
+            {% if page<total_pages %} 
+                <li class="page-item"><a class="page-link" href="{{url_for('product',page=page+1)}}">Next</a></li>
+            {% endif %}
             </ul>
         </nav>
     </div>
