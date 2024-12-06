@@ -46,13 +46,16 @@ def pricing():
 
 @app.route("/faqs",methods=['POST','GET'])
 def faqs():
+    error = None
     if request.method== 'POST':
         username = request.form['email']
         password = request.form['password']
         #checked = request.form['checked']
         if username=='asd@yahoo.com' and password=='123':
             return redirect(url_for('success'))
-    return render_template('faqs.j2')
+        else:
+            error='Wrong Password'
+    return render_template('faqs.j2',error=error)
 
 @app.route("/about")
 def about():
