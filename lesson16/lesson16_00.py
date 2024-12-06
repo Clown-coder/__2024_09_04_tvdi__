@@ -1,6 +1,9 @@
 from flask import Flask,render_template,request,redirect,url_for
 import datasource
-
+from flask_wtf import FlaskForm
+from wtforms import fields
+from wtforms.validators import DataRequired,Length
+import secrets
 '''
 flask 就是一個支援 wsgi的應用程式
 真正支援wsgi的程式是 Gunicorn
@@ -10,6 +13,8 @@ flask --app 檔案名稱 run --debug
 
 '''
 app = Flask(__name__)
+app.config['SECRET_KEY'] = secrets.token_hex(16)
+
 @app.route("/")
 def index():
     return render_template('index.j2')
@@ -43,19 +48,16 @@ def pricing():
                            total_pages = total_pages,
                            page=page)
     
+class MyForm(FlaskForm):
+    email_field = fields.EmailField("Email address",validators=[DataRequired("必須要有資料")])
+    password_field = fields.PasswordField("請輸入密碼",validators=[DataRequired("必須要有資料"),Length(5,10)])
+    e_paper_field = fields.BooleanField("訂閱電子報")
+    submit_field = fields.SubmitField("確認送出")
 
 @app.route("/faqs",methods=['POST','GET'])
 def faqs():
-    error = None
-    if request.method== 'POST':
-        username = request.form['email']
-        password = request.form['password']
-        #checked = request.form['checked']
-        if username=='asd@yahoo.com' and password=='123':
-            return redirect(url_for('success'))
-        else:
-            error='Wrong Password'
-    return render_template('faqs.j2',error=error)
+    myForm = MyForm()
+    return render_template('faqs.j2',myForm = myForm)
 
 @app.route("/about")
 def about():
