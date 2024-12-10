@@ -11,7 +11,7 @@ df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapmi
 app = Dash(__name__,external_stylesheets=dmc.styles.ALL)
 
 radio_data = [['pop','人口'],['lifeExp','平均壽命'],['gdpPercap','GDP']]
-
+selected_data = [{'value':value,"label":value} for value in df.country.unique()]
 app.layout = dmc.MantineProvider(
     [
         # html.H1("Dash App 標題", style={"textAlign": 'center'})
@@ -42,7 +42,16 @@ app.layout = dmc.MantineProvider(
                             mb=10,
                         )
                     ,
-                        dcc.Dropdown(df.country.unique(),value='Taiwan',id='dropdown-selection')
+                        # dcc.Dropdown(df.country.unique(),value='Taiwan',id='dropdown-selection')
+                        dmc.Select(
+                                    label="Select Country",
+                                    placeholder="Select one",
+                                    id="dropdown-selection",
+                                    value="Taiwan",
+                                    data=selected_data,
+                                    w=200,
+                                    mb=10,
+                        )
                     ]
 
                 )
