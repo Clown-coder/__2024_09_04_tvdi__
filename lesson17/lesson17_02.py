@@ -14,8 +14,11 @@ app.layout = dmc.MantineProvider(
     [
         # html.H1("Dash App 標題", style={"textAlign": 'center'})
         dmc.Container(
-            html.H1("Dash App標題",style={"textAlign":"center"}),
-            fluid=True
+            # html.H1("Dash App標題",style={"textAlign":"center"}),
+            dmc.Title(f"世界各國人口、壽命、GDP", order=2),
+            fluid=True,
+            ta="center",
+            p=20
         )
     ,
         # dcc.RadioItems(['pop','lifeExp','gdpPercap'],value = 'pop',inline=True,id='radio_item')
@@ -34,8 +37,12 @@ app.layout = dmc.MantineProvider(
                     w=300
                 )
             ,
-                dash_table.DataTable(data=[],page_size=10,id='datatable',columns=[])
-             
+                # dash_table.DataTable(data=[],page_size=10,id='datatable',columns=[])
+                dmc.Center(
+                    dash_table.DataTable(data=[],page_size=10,id='datatable',columns=[])
+                ,
+                    w=500
+                )
             ],
             direction={"base":"column","sm":"row"},
             gap={"base":"sm","sm":"lg"},
