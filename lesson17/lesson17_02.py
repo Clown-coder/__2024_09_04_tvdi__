@@ -12,18 +12,40 @@ app = Dash(__name__,external_stylesheets=dmc.styles.ALL)
 
 app.layout = dmc.MantineProvider(
     [
-        html.H1("Dash App 標題", style={"textAlign": 'center'})
+        # html.H1("Dash App 標題", style={"textAlign": 'center'})
+        dmc.Container(
+            html.H1("Dash App標題",style={"textAlign":"center"}),
+            fluid=True
+        )
     ,
-        dcc.RadioItems(['pop','lifeExp','gdpPercap'],value = 'pop',inline=True,id='radio_item')
+        # dcc.RadioItems(['pop','lifeExp','gdpPercap'],value = 'pop',inline=True,id='radio_item')
+    #,
+        # dcc.Dropdown(df.country.unique(),value='Taiwan',id='dropdown-selection')
+    #
+        #dash_table.DataTable(data=[],page_size=10,id='datatable',columns=[])
+        dmc.Flex(
+            [
+                dmc.Stack(
+                    [
+                        dcc.RadioItems(['pop','lifeExp','gdpPercap'],value = 'pop',inline=True,id='radio_item')
+                    ,
+                        dcc.Dropdown(df.country.unique(),value='Taiwan',id='dropdown-selection')
+                    ],
+                    w=300
+                )
+            ,
+                dash_table.DataTable(data=[],page_size=10,id='datatable',columns=[])
+             
+            ],
+            direction={"base":"column","sm":"row"},
+            gap={"base":"sm","sm":"lg"},
+            justify={"base":"center"}
+        )
     ,
-        dcc.Dropdown(df.country.unique(),value='Taiwan',id='dropdown-selection')
-    ,
-        dash_table.DataTable(data=[],
-                             page_size=10,
-                             id='datatable',
-                             columns=[])
-    ,
-        dcc.Graph(id='graph-content')
+        # dcc.Graph(id='graph-content')
+        dmc.Container(
+            dcc.Graph(id='graph-content')
+        )
     ]
 )
 
