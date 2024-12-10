@@ -9,9 +9,84 @@ _dash_renderer._set_react_version("18.2.0")
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
 
 app = Dash(__name__,external_stylesheets=dmc.styles.ALL)
-
+#radio button 要的資料
 radio_data = [['pop','人口'],['lifeExp','平均壽命'],['gdpPercap','GDP']]
+#selected 要的資料
 selected_data = [{'value':value,"label":value} for value in df.country.unique()]
+
+#table 要顯示的資料
+# elements = [
+#     {"position": 6, "mass": 12.011, "symbol": "C", "name": "Carbon"},
+#     {"position": 7, "mass": 14.007, "symbol": "N", "name": "Nitrogen"},
+#     {"position": 39, "mass": 88.906, "symbol": "Y", "name": "Yttrium"},
+#     {"position": 56, "mass": 137.33, "symbol": "Ba", "name": "Barium"},
+#     {"position": 58, "mass": 140.12, "symbol": "Ce", "name": "Cerium"},
+#     {"position": 6, "mass": 12.011, "symbol": "C", "name": "Carbon"},
+#     {"position": 7, "mass": 14.007, "symbol": "N", "name": "Nitrogen"},
+#     {"position": 39, "mass": 88.906, "symbol": "Y", "name": "Yttrium"},
+#     {"position": 56, "mass": 137.33, "symbol": "Ba", "name": "Barium"},
+#     {"position": 58, "mass": 140.12, "symbol": "Ce", "name": "Cerium"},
+#     {"position": 6, "mass": 12.011, "symbol": "C", "name": "Carbon"},
+#     {"position": 7, "mass": 14.007, "symbol": "N", "name": "Nitrogen"},
+#     {"position": 39, "mass": 88.906, "symbol": "Y", "name": "Yttrium"},
+#     {"position": 56, "mass": 137.33, "symbol": "Ba", "name": "Barium"},
+
+# ]
+# rows = [
+#     dmc.TableTr(
+#         [
+#             dmc.TableTd(element["position"]),
+#             dmc.TableTd(element["name"]),
+#             dmc.TableTd(element["symbol"]),
+#             dmc.TableTd(element["mass"]),
+#         ]
+#     )
+#     for element in elements
+# ]
+# head = dmc.TableThead(
+#     dmc.TableTr(
+#         [
+#             dmc.TableTh("Element Position"),
+#             dmc.TableTh("Element Name"),
+#             dmc.TableTh("Symbol"),
+#             dmc.TableTh("Atomic Mass"),
+#         ]
+#     )
+# )
+
+# body = dmc.TableTbody(rows)
+# caption = dmc.TableCaption("Some elements from periodic table")
+
+#只顯示台灣的資料
+dff = df[df.country =="Taiwan"]
+pop_diff = dff[['country','year','pop']]
+elements = pop_diff.to_dict("records")
+
+rows = [
+    dmc.TableTr(
+        [
+            dmc.TableTd(element["country"]),
+            dmc.TableTd(element["year"]),
+            dmc.TableTd(element["pop"]),
+        ]
+    )
+    for element in elements
+]
+
+head = dmc.TableThead(
+    dmc.TableTr(
+        [
+            dmc.TableTh("國家"),
+            dmc.TableTh("年分"),
+            dmc.TableTh("人口")
+        ]
+    )
+)
+
+body = dmc.TableTbody(rows)
+caption = dmc.TableCaption("Taiwan NO.1")
+
+
 app.layout = dmc.MantineProvider(
     [
         # html.H1("Dash App 標題", style={"textAlign": 'center'})
@@ -20,7 +95,7 @@ app.layout = dmc.MantineProvider(
             dmc.Title(f"世界各國人口、壽命、GDP", order=2),
             fluid=True,
             ta="center",
-            p=20
+            p=30
         )
     ,
         # dcc.RadioItems(['pop','lifeExp','gdpPercap'],value = 'pop',inline=True,id='radio_item')
@@ -45,7 +120,7 @@ app.layout = dmc.MantineProvider(
                         # dcc.Dropdown(df.country.unique(),value='Taiwan',id='dropdown-selection')
                         dmc.Select(
                                     label="Select Country",
-                                    placeholder="Select one",
+                                    # placeholder="Select one",
                                     id="dropdown-selection",
                                     value="Taiwan",
                                     data=selected_data,
@@ -57,10 +132,18 @@ app.layout = dmc.MantineProvider(
                 )
             ,
                 # dash_table.DataTable(data=[],page_size=10,id='datatable',columns=[])
-                dmc.Center(
-                    dash_table.DataTable(data=[],page_size=10,id='datatable',columns=[])
-                ,
-                    w=500
+                # dmc.Center(
+                #     dash_table.DataTable(data=[],page_size=10,id='datatable',columns=[])
+                # ,
+                #     w=500
+                # )
+                dmc.ScrollArea(
+                    dmc.Table(
+                            [head, body, caption],
+                            w='100%'
+                        ),
+                        h=300,
+                        w="50%"
                 )
             ],
             direction={"base":"column","sm":"row"},
@@ -81,7 +164,7 @@ app.layout = dmc.MantineProvider(
     Input('dropdown-selection','value'),
     Input('radio_item','value')
 )
-def update_graph(country_value,radio_value):
+def update_graph(country_value,radio_value):    
     dff = df[df.country ==country_value]
     if radio_value =='pop':
         title= f'{country_value}:人口成長圖表'
@@ -91,26 +174,26 @@ def update_graph(country_value,radio_value):
         title = f'{country_value}: 人均GDP'
     return px.line(dff,x='year',y=radio_value,title=title)
 
-#表格事件
-@callback(
-    Output('datatable','data'),
-    Output('datatable','columns'),
-    Input('dropdown-selection','value'),
-    Input('radio_item','value')
-)
-def update_table(country_value,radio_value):
-    dff = df[df.country ==country_value]
-    columns = [
-        {'id':'country','name':'country'},
-        {'id':'year','name':'year'}
-    ]
-    if radio_value =='pop':
-        columns.append({'id':'pop','name':'pop'})
-    elif radio_value =='lifeExp':
-        columns.append({'id':'lifeExp','name':'lifeExp'})
-    elif radio_value =='gdpPercap':
-        columns.append({'id':'gdpPercap','name':'gdpPercap'})
-    return dff.to_dict('records'),columns
+# #表格事件
+# @callback(
+#     Output('datatable','data'),
+#     Output('datatable','columns'),
+#     Input('dropdown-selection','value'),
+#     Input('radio_item','value')
+# )
+# def update_table(country_value,radio_value):
+#     dff = df[df.country ==country_value]
+#     columns = [
+#         {'id':'country','name':'country'},
+#         {'id':'year','name':'year'}
+#     ]
+#     if radio_value =='pop':
+#         columns.append({'id':'pop','name':'pop'})
+#     elif radio_value =='lifeExp':
+#         columns.append({'id':'lifeExp','name':'lifeExp'})
+#     elif radio_value =='gdpPercap':
+#         columns.append({'id':'gdpPercap','name':'gdpPercap'})
+#     return dff.to_dict('records'),columns
 
 
 if __name__ =='__main__':
