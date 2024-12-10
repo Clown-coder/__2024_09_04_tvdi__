@@ -10,6 +10,8 @@ df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapmi
 
 app = Dash(__name__,external_stylesheets=dmc.styles.ALL)
 
+radio_data = [['pop','人口'],['lifeExp','平均壽命'],['gdpPercap','GDP']]
+
 app.layout = dmc.MantineProvider(
     [
         # html.H1("Dash App 標題", style={"textAlign": 'center'})
@@ -30,11 +32,19 @@ app.layout = dmc.MantineProvider(
             [
                 dmc.Stack(
                     [
-                        dcc.RadioItems(['pop','lifeExp','gdpPercap'],value = 'pop',inline=True,id='radio_item')
+                        # dcc.RadioItems(['pop','lifeExp','gdpPercap'],value = 'pop',inline=True,id='radio_item')
+                        dmc.RadioGroup(
+                            children=dmc.Group([dmc.Radio(l, value=k) for k, l in radio_data], my=10),
+                            id="radio_item",
+                            value="pop",
+                            label="Select the item you are interesting in ",
+                            size="md",
+                            mb=10,
+                        )
                     ,
                         dcc.Dropdown(df.country.unique(),value='Taiwan',id='dropdown-selection')
-                    ],
-                    w=300
+                    ]
+
                 )
             ,
                 # dash_table.DataTable(data=[],page_size=10,id='datatable',columns=[])
