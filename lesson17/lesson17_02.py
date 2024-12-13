@@ -62,7 +62,7 @@ dff = df[df.country =="Taiwan"]
 pop_diff = dff[['country','year','pop']]
 elements = pop_diff.to_dict("records")
 
-rows = [
+rows = [ 
     dmc.TableTr(
         [
             dmc.TableTd(element["country"]),
