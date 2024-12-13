@@ -35,8 +35,9 @@ app.layout = dmc.MantineProvider(
                     active=True,
                     variant="filled",
                     color="orange",
-                    id="navlink-interactive",
-                    h=70
+                    id="school-icon",
+                    h=70,
+                    href="/"
                 ),
                 
                    
