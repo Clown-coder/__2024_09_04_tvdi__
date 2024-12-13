@@ -14,12 +14,15 @@ radio_data = [['pop','人口'],['lifeExp','平均壽命'],['gdpPercap','GDP']]
 #selected 要的資料
 selected_data = [{'value':value,"label":value} for value in df.country.unique()]
 
-data = [
-        {"date": "Mar 22", "Apples": 2890, "Oranges": 2338, "Tomatoes": 2452},
-         {"date": "Mar 23", "Apples": 2756, "Oranges": 2103, "Tomatoes": 2402},
-         {"date": "Mar 24", "Apples": 3322, "Oranges": 986, "Tomatoes": 1821},
-         {"date": "Mar 25", "Apples": 3470, "Oranges": 2108, "Tomatoes": 2809},
-]
+#Linechart圖表要的資料
+# data = [
+#         {"date": "Mar 22", "Apples": 2890, "Oranges": 2338, "Tomatoes": 2452},
+#         {"date": "Mar 23", "Apples": 2756, "Oranges": 2103, "Tomatoes": 2402},
+#         {"date": "Mar 24", "Apples": 3322, "Oranges": 986, "Tomatoes": 1821},
+#         {"date": "Mar 25", "Apples": 3470, "Oranges": 2108, "Tomatoes": 2809},
+# ]
+
+
 
 app.layout = dmc.MantineProvider(
     [
@@ -89,30 +92,55 @@ app.layout = dmc.MantineProvider(
         # )
         dmc.Container(
                 dmc.LineChart(
+                            id = 'lineChart',
                             h=300,
-                            dataKey="date",
-                            data=data,
-                            series = [
-                                {"name": "Apples", "color": "indigo.6"},
-                                {"name": "Oranges", "color": "blue.6"},
-                                {"name": "Tomatoes", "color": "teal.6"}
-                            ],
-                            curveType="linear",
+                            dataKey="year",
+                            data=None,
+                            series =[],
+                            curveType="monotone",
                             tickLine="xy",
-                            withXAxis=False,
-                            withDots=False,
+                            withXAxis=True,
+                            withDots=True,
+                            gridAxis="xy",
+                            withLegend=True,
+                            xAxisLabel="年分",
+                            yAxisLabel=[]
+
+
                 ),
-                mt=50
+                my=50
         )
     ]
 )
 
 #圖表事件
-# @callback(
-#     Output('graph-content','figure'),
-#     Input('dropdown-selection','value'),
-#     Input('radio_item','value')
-# )
+@callback(
+    Output('lineChart','data'),
+    Output('lineChart','series'),
+    Input('dropdown-selection','value'),
+    Input('radio_item','value')
+)
+def update_graph(country_value,radio_value):
+    #Linechart圖表要的資料
+    dff = df[df.country == country_value]
+    pop_diff=dff[['country','year',radio_value]]
+    line_chart_data = pop_diff.to_dict('records')
+    if radio_value =='pop':
+        lable_title= f'{country_value}:人口成長圖表'
+    elif radio_value =='lifeExp':
+        lable_title = f'{country_value}:壽命'
+    elif radio_value == 'gdpPercap':
+        lable_title = f'{country_value}: 人均GDP'
+
+    series= [
+        {"name":radio_value,"label":lable_title,"color":"indigo.6"}
+    ]
+
+    return line_chart_data,series
+
+
+
+
 # def update_graph(country_value,radio_value):    
 #     dff = df[df.country ==country_value]
 #     if radio_value =='pop':
