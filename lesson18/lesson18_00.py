@@ -3,7 +3,10 @@ import datasource
 from flask_wtf import FlaskForm
 from wtforms import fields
 from wtforms.validators import DataRequired,Length
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from werkzeug.serving import run_simple
 import secrets
+from lesson18_02 import app1
 '''
 flask 就是一個支援 wsgi的應用程式
 真正支援wsgi的程式是 Gunicorn
@@ -14,6 +17,13 @@ flask --app 檔案名稱 run --debug
 '''
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
+
+application = DispatcherMiddleware(
+    app,
+    {"/dash": app1.server},
+)
+
+
 
 @app.route("/")
 def index():
@@ -67,3 +77,11 @@ def about():
 @app.route("/success")
 def success():
     return "<h1>Log in Successfully</h1>"
+
+if __name__ == "__main__":
+    run_simple("localhost", 8080, application,use_debugger=True,use_reloader=True)
+
+
+
+
+
