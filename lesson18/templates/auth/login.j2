@@ -16,12 +16,13 @@ Login
         <div class='mb-3'>
             {{myForm.password_field.label(class='form-label')}} {{myForm.password_field(size=50,class='form-control')}}
         </div>
-        <div class='form-check'>  
-            {{myForm.e_paper_field.label(class='form-check-label')}} {{myForm.e_paper_field(class='form-check-label')}}
-        </div>
+        
         <div class="mt-5">
             {{myForm.submit_field.label(class="btn btn-primary")}} 
         </div>
+        <p class="d-inline-flex gap-1 mt-5">
+            <a href="{{url_for('auth.regist')}}" class="btn active" role="button" >註冊會員</a>
+        </p>
     </form>
 </div>
 {% endblock%}
