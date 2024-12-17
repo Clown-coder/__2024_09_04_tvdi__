@@ -4,6 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,EmailField,validators
 from wtforms.validators import DataRequired,Length
 from werkzeug.security import generate_password_hash
+from datasource import is_email_duplicate
 
 class RegistrationForm(FlaskForm):
     username = StringField('使用者名稱',[
@@ -34,5 +35,11 @@ def regist():
         password = form.password.data
         password_hash= generate_password_hash(password=password,method='pbkdf2:sha256:600000',salt_length=8)
         print(password_hash)
+        if not is_email_duplicate(email):
+            #email 沒有重複
+            print("email 沒有重複")
+        else:
+            #email 有重複
+            print("email有重複")
         return redirect(url_for('auth.success'))
     return render_template('/auth/registration.j2',form=form)
