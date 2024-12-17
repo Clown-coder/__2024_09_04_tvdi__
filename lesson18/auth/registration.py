@@ -3,7 +3,7 @@ from flask import render_template,request,url_for,redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,EmailField,validators
 from wtforms.validators import DataRequired,Length
-
+from werkzeug.security import generate_password_hash
 
 class RegistrationForm(FlaskForm):
     username = StringField('使用者名稱',[
@@ -29,6 +29,10 @@ class RegistrationForm(FlaskForm):
 def regist():
     form =RegistrationForm(request.form)
     if request.method == "POST" and form.validate():
-        
+        name= form.username.data
+        email = form.email.data
+        password = form.password.data
+        password_hash= generate_password_hash(password=password,method='pbkdf2:sha256:600000',salt_length=8)
+        print(password_hash)
         return redirect(url_for('auth.success'))
     return render_template('/auth/registration.j2',form=form)
