@@ -29,5 +29,6 @@ class RegistrationForm(FlaskForm):
 def regist():
     form =RegistrationForm(request.form)
     if request.method == "POST" and form.validate():
+        
         return redirect(url_for('auth.success'))
     return render_template('/auth/registration.j2',form=form)
