@@ -6,10 +6,10 @@ from wtforms.validators import DataRequired,Length
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username')
-    email = EmailField('E-mail')
-    password = PasswordField('New Password')
-    confirm_password = PasswordField('Confirm Password')
+    username = StringField('使用者名稱')
+    email = EmailField('信箱')
+    password = PasswordField('新密碼')
+    confirm_password = PasswordField('再次輸入密碼')
 
 
 @auth.route('/regist')
