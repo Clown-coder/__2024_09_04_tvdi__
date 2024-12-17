@@ -1,18 +1,33 @@
 from . import auth
-from flask import render_template
+from flask import render_template,request
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,EmailField
+from wtforms import StringField,PasswordField,EmailField,validators
 from wtforms.validators import DataRequired,Length
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('使用者名稱')
-    email = EmailField('信箱')
-    password = PasswordField('新密碼')
-    confirm_password = PasswordField('再次輸入密碼')
+    username = StringField('使用者名稱',[
+        validators.Length(min=8,max=25),
+        validators.InputRequired("使用者名稱不為空")
+    ])
+    email = EmailField('信箱',[
+        validators.Length(min=3,max=35),
+        validators.InputRequired("信箱不為空")
+    ])
+    password = PasswordField('新密碼',[
+        validators.Length(min=8,max=30),
+        validators.DataRequired("密碼不為空"),
+        validators.EqualTo('confirm_password',message='密碼不相同，請重新輸入')
+    ])
+    confirm_password = PasswordField('再次輸入密碼',[
+        validators.InputRequired("再次輸入密碼"),
+
+    ])
 
 
-@auth.route('/regist')
+@auth.route('/regist',methods=['GET','POST'])
 def regist():
-    form =RegistrationForm()
+    form =RegistrationForm(request.form)
+    if request.method == "POST" and form.validate():
+        print("驗證通過")
     return render_template('/auth/registration.j2',form=form)
