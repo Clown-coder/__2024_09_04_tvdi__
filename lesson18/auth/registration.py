@@ -1,5 +1,5 @@
 from . import auth
-from flask import render_template,request
+from flask import render_template,request,url_for,redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,EmailField,validators
 from wtforms.validators import DataRequired,Length
@@ -29,5 +29,5 @@ class RegistrationForm(FlaskForm):
 def regist():
     form =RegistrationForm(request.form)
     if request.method == "POST" and form.validate():
-        print("驗證通過")
+        return redirect(url_for('auth.success'))
     return render_template('/auth/registration.j2',form=form)
