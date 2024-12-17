@@ -7,6 +7,7 @@ from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from werkzeug.serving import run_simple
 import secrets
 from lesson18_02 import app1
+from auth import auth
 '''
 flask 就是一個支援 wsgi的應用程式
 真正支援wsgi的程式是 Gunicorn
@@ -17,6 +18,7 @@ flask --app 檔案名稱 run --debug
 '''
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
+app.register_blueprint(auth,url_prefix='/auth')
 
 application = DispatcherMiddleware(
     app,
