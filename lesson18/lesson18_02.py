@@ -49,7 +49,7 @@ app1.layout = dmc.MantineProvider(
                     [
                         dmc.Stack(
                             [
-                                #dcc.RadioItems(['pop','lifeExp','gdpPercap'],value='pop',inline=True,id='radio_item')
+                                # dcc.RadioItems(['pop','lifeExp','gdpPercap'],value='pop',inline=True,id='radio_item')
                                 dmc.RadioGroup(
                                     children=dmc.Group([dmc.Radio(l, value=k) for k, l in radio_data], my=10),
                                     id="radio_item",
@@ -60,7 +60,7 @@ app1.layout = dmc.MantineProvider(
                                 )
                 
                             , 
-                                #dcc.Dropdown(df.country.unique(),value='Taiwan',id='dropdown-selection')
+                                # dcc.Dropdown(df.country.unique(),value='Taiwan',id='dropdown-selection')
                                 dmc.Select(
                                     label="請選擇國家",
                                     placeholder="請選擇1個",

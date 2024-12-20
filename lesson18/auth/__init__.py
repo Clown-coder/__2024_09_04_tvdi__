@@ -5,3 +5,4 @@ from . import login
 from . import registration
 
 from . import success
+from . import logout
